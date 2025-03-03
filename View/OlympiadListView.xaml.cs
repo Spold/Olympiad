@@ -89,29 +89,28 @@ namespace Olympiad.View
             this.NavigationService.Navigate(new OlympiadDetailPage(olympiads.OlympiadId));
         }
 
-        private void ParticipantCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            UserOlympiads();
-            if (TutorCheckBox.IsChecked == true)
-            {
-                TutorCheckBox.IsChecked = false;
-
-            }
-        }
-
-        private void ParticipantCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void AllOlympiadsRadio_Checked(object sender, RoutedEventArgs e)
         {
             AllOlympiads();
         }
 
+        private void TutorRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            TutorOlympiads();
+        }
+
+        private void ParticipantRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            UserOlympiads();
+        }
+
         private void YearComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            if (TutorCheckBox.IsChecked == true)
+            if (TutorRadioButton.IsChecked == true)
             {
                 TutorOlympiads();
             }
-            else if (ParticipantCheckBox.IsChecked == true)
+            else if (ParticipantRadioButton.IsChecked == true)
             {
                 UserOlympiads();
             }
@@ -121,19 +120,6 @@ namespace Olympiad.View
             }
         }
 
-        private void TutorCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            TutorOlympiads();
-            if (ParticipantCheckBox.IsChecked == true)
-            {
-                ParticipantCheckBox.IsChecked = false;
 
-            }
-        }
-
-        private void TutorCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            AllOlympiads();
-        }
     }
 }

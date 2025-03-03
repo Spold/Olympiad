@@ -16,16 +16,23 @@
 
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <CheckBox x:Name="TutorCheckBox" 
-        Content="Курируемые олимпиады"
-        Margin="0 5 20 5"
-      Checked="TutorCheckBox_Checked" Unchecked="TutorCheckBox_Unchecked" />
+            <RadioButton x:Name="AllOlympiadsRadio" 
+                 Content="Все олимпиады"
+                 Margin="0 5 20 5"
+                 GroupName="FilterGroup"
+                 Checked="AllOlympiadsRadio_Checked"/>
 
-            <CheckBox x:Name="ParticipantCheckBox" 
-                  Content="Мои олимпиады"
-                  Margin="0 5 20 5"
-                Checked="ParticipantCheckBox_Checked" Unchecked="ParticipantCheckBox_Unchecked" />
+            <RadioButton x:Name="TutorRadioButton" 
+                 Content="Курируемые олимпиады"
+                 Margin="0 5 20 5"
+                 GroupName="FilterGroup"
+                 Checked="TutorRadioButton_Checked"/>
 
+            <RadioButton x:Name="ParticipantRadioButton" 
+                 Content="Мои олимпиады"
+                 Margin="0 5 20 5"
+                 GroupName="FilterGroup"
+                 Checked="ParticipantRadioButton_Checked"/>
             <ComboBox x:Name="YearComboBox" 
                   Width="120"
                   SelectionChanged ="YearComboBox_SelectionChanged"
