@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="797df82f15cf44e381a1f2a8f6daaf08" Name="Diagram1">
+        <EntityTypeShape EntityType="OlympiadTrackingModel.Certificates" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OlympiadTrackingModel.Olympiads" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OlympiadTrackingModel.Protocols" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OlympiadTrackingModel.Registrations" Width="1.5" PointX="8.25" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OlympiadTrackingModel.Results" Width="1.5" PointX="7.5" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OlympiadTrackingModel.Users" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <AssociationConnector Association="OlympiadTrackingModel.FK_Certificates_Olympiads" ManuallyRouted="false" />
+        <AssociationConnector Association="OlympiadTrackingModel.FK_Olympiads_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="OlympiadTrackingModel.FK_Protocols_Olympiads" ManuallyRouted="false" />
+        <AssociationConnector Association="OlympiadTrackingModel.FK_Registrations_Olympiads" ManuallyRouted="false" />
+        <AssociationConnector Association="OlympiadTrackingModel.FK_Results_Protocols" ManuallyRouted="false" />
+        <AssociationConnector Association="OlympiadTrackingModel.FK_Registrations_Students" ManuallyRouted="false" />
+        <AssociationConnector Association="OlympiadTrackingModel.FK_Results_Registrations" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

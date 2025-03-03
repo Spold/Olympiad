@@ -1,0 +1,506 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище OlympiadTrackingModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Certificates">
+          <Key>
+            <PropertyRef Name="CertificateId" />
+          </Key>
+          <Property Name="CertificateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OlympiadId" Type="int" Nullable="false" />
+          <Property Name="FilePath" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="text" />
+        </EntityType>
+        <EntityType Name="Olympiads">
+          <Key>
+            <PropertyRef Name="OlympiadId" />
+          </Key>
+          <Property Name="OlympiadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ResponsibleTeacherUserId" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="PositionDocument" Type="text" />
+          <Property Name="TasksArchive" Type="text" />
+        </EntityType>
+        <EntityType Name="Protocols">
+          <Key>
+            <PropertyRef Name="ProtocolId" />
+          </Key>
+          <Property Name="ProtocolId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OlympiadId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FilePath" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IsPublished" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Registrations">
+          <Key>
+            <PropertyRef Name="RegistrationId" />
+          </Key>
+          <Property Name="RegistrationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentUserId" Type="int" Nullable="false" />
+          <Property Name="OlympiadId" Type="int" Nullable="false" />
+          <Property Name="RegistrationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Results">
+          <Key>
+            <PropertyRef Name="ResultId" />
+          </Key>
+          <Property Name="ResultId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegistrationId" Type="int" Nullable="false" />
+          <Property Name="ProtocolId" Type="int" Nullable="false" />
+          <Property Name="Score" Type="int" Nullable="false" />
+          <Property Name="ResultType" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="RoleType" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronymic" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="EducationalInstitution" Type="varchar" MaxLength="100" />
+          <Property Name="EducationLevel" Type="varchar" MaxLength="50" />
+          <Property Name="CourseNumber" Type="int" />
+          <Property Name="Specialty" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Certificates_Olympiads">
+          <End Role="Olympiads" Type="Self.Olympiads" Multiplicity="1" />
+          <End Role="Certificates" Type="Self.Certificates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Olympiads">
+              <PropertyRef Name="OlympiadId" />
+            </Principal>
+            <Dependent Role="Certificates">
+              <PropertyRef Name="OlympiadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Olympiads_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Olympiads" Type="Self.Olympiads" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Olympiads">
+              <PropertyRef Name="ResponsibleTeacherUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Protocols_Olympiads">
+          <End Role="Olympiads" Type="Self.Olympiads" Multiplicity="1" />
+          <End Role="Protocols" Type="Self.Protocols" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Olympiads">
+              <PropertyRef Name="OlympiadId" />
+            </Principal>
+            <Dependent Role="Protocols">
+              <PropertyRef Name="OlympiadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Registrations_Olympiads">
+          <End Role="Olympiads" Type="Self.Olympiads" Multiplicity="1" />
+          <End Role="Registrations" Type="Self.Registrations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Olympiads">
+              <PropertyRef Name="OlympiadId" />
+            </Principal>
+            <Dependent Role="Registrations">
+              <PropertyRef Name="OlympiadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Registrations_Students">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Registrations" Type="Self.Registrations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Registrations">
+              <PropertyRef Name="StudentUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Results_Protocols">
+          <End Role="Protocols" Type="Self.Protocols" Multiplicity="1" />
+          <End Role="Results" Type="Self.Results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Protocols">
+              <PropertyRef Name="ProtocolId" />
+            </Principal>
+            <Dependent Role="Results">
+              <PropertyRef Name="ProtocolId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Results_Registrations">
+          <End Role="Registrations" Type="Self.Registrations" Multiplicity="1" />
+          <End Role="Results" Type="Self.Results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registrations">
+              <PropertyRef Name="RegistrationId" />
+            </Principal>
+            <Dependent Role="Results">
+              <PropertyRef Name="RegistrationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище OlympiadTrackingModelContainer">
+          <EntitySet Name="Certificates" EntityType="Self.Certificates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Olympiads" EntityType="Self.Olympiads" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Protocols" EntityType="Self.Protocols" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Registrations" EntityType="Self.Registrations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Results" EntityType="Self.Results" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Certificates_Olympiads" Association="Self.FK_Certificates_Olympiads">
+            <End Role="Olympiads" EntitySet="Olympiads" />
+            <End Role="Certificates" EntitySet="Certificates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Olympiads_Users" Association="Self.FK_Olympiads_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Olympiads" EntitySet="Olympiads" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Protocols_Olympiads" Association="Self.FK_Protocols_Olympiads">
+            <End Role="Olympiads" EntitySet="Olympiads" />
+            <End Role="Protocols" EntitySet="Protocols" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Registrations_Olympiads" Association="Self.FK_Registrations_Olympiads">
+            <End Role="Olympiads" EntitySet="Olympiads" />
+            <End Role="Registrations" EntitySet="Registrations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Registrations_Students" Association="Self.FK_Registrations_Students">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Registrations" EntitySet="Registrations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Results_Protocols" Association="Self.FK_Results_Protocols">
+            <End Role="Protocols" EntitySet="Protocols" />
+            <End Role="Results" EntitySet="Results" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Results_Registrations" Association="Self.FK_Results_Registrations">
+            <End Role="Registrations" EntitySet="Registrations" />
+            <End Role="Results" EntitySet="Results" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OlympiadTrackingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Certificates">
+          <Key>
+            <PropertyRef Name="CertificateId" />
+          </Key>
+          <Property Name="CertificateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OlympiadId" Type="Int32" Nullable="false" />
+          <Property Name="FilePath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Olympiads" Relationship="Self.FK_Certificates_Olympiads" FromRole="Certificates" ToRole="Olympiads" />
+        </EntityType>
+        <EntityType Name="Olympiads">
+          <Key>
+            <PropertyRef Name="OlympiadId" />
+          </Key>
+          <Property Name="OlympiadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ResponsibleTeacherUserId" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PositionDocument" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TasksArchive" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Certificates" Relationship="Self.FK_Certificates_Olympiads" FromRole="Olympiads" ToRole="Certificates" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Olympiads_Users" FromRole="Olympiads" ToRole="Users" />
+          <NavigationProperty Name="Protocols" Relationship="Self.FK_Protocols_Olympiads" FromRole="Olympiads" ToRole="Protocols" />
+          <NavigationProperty Name="Registrations" Relationship="Self.FK_Registrations_Olympiads" FromRole="Olympiads" ToRole="Registrations" />
+        </EntityType>
+        <EntityType Name="Protocols">
+          <Key>
+            <PropertyRef Name="ProtocolId" />
+          </Key>
+          <Property Name="ProtocolId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OlympiadId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FilePath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsPublished" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Olympiads" Relationship="Self.FK_Protocols_Olympiads" FromRole="Protocols" ToRole="Olympiads" />
+          <NavigationProperty Name="Results" Relationship="Self.FK_Results_Protocols" FromRole="Protocols" ToRole="Results" />
+        </EntityType>
+        <EntityType Name="Registrations">
+          <Key>
+            <PropertyRef Name="RegistrationId" />
+          </Key>
+          <Property Name="RegistrationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentUserId" Type="Int32" Nullable="false" />
+          <Property Name="OlympiadId" Type="Int32" Nullable="false" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Olympiads" Relationship="Self.FK_Registrations_Olympiads" FromRole="Registrations" ToRole="Olympiads" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Registrations_Students" FromRole="Registrations" ToRole="Users" />
+          <NavigationProperty Name="Results" Relationship="Self.FK_Results_Registrations" FromRole="Registrations" ToRole="Results" />
+        </EntityType>
+        <EntityType Name="Results">
+          <Key>
+            <PropertyRef Name="ResultId" />
+          </Key>
+          <Property Name="ResultId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegistrationId" Type="Int32" Nullable="false" />
+          <Property Name="ProtocolId" Type="Int32" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="ResultType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Protocols" Relationship="Self.FK_Results_Protocols" FromRole="Results" ToRole="Protocols" />
+          <NavigationProperty Name="Registrations" Relationship="Self.FK_Results_Registrations" FromRole="Results" ToRole="Registrations" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoleType" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="EducationalInstitution" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EducationLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CourseNumber" Type="Int32" />
+          <Property Name="Specialty" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Olympiads" Relationship="Self.FK_Olympiads_Users" FromRole="Users" ToRole="Olympiads" />
+          <NavigationProperty Name="Registrations" Relationship="Self.FK_Registrations_Students" FromRole="Users" ToRole="Registrations" />
+        </EntityType>
+        <Association Name="FK_Certificates_Olympiads">
+          <End Role="Olympiads" Type="Self.Olympiads" Multiplicity="1" />
+          <End Role="Certificates" Type="Self.Certificates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Olympiads">
+              <PropertyRef Name="OlympiadId" />
+            </Principal>
+            <Dependent Role="Certificates">
+              <PropertyRef Name="OlympiadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Olympiads_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Olympiads" Type="Self.Olympiads" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Olympiads">
+              <PropertyRef Name="ResponsibleTeacherUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Protocols_Olympiads">
+          <End Role="Olympiads" Type="Self.Olympiads" Multiplicity="1" />
+          <End Role="Protocols" Type="Self.Protocols" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Olympiads">
+              <PropertyRef Name="OlympiadId" />
+            </Principal>
+            <Dependent Role="Protocols">
+              <PropertyRef Name="OlympiadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Registrations_Olympiads">
+          <End Role="Olympiads" Type="Self.Olympiads" Multiplicity="1" />
+          <End Role="Registrations" Type="Self.Registrations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Olympiads">
+              <PropertyRef Name="OlympiadId" />
+            </Principal>
+            <Dependent Role="Registrations">
+              <PropertyRef Name="OlympiadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Results_Protocols">
+          <End Role="Protocols" Type="Self.Protocols" Multiplicity="1" />
+          <End Role="Results" Type="Self.Results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Protocols">
+              <PropertyRef Name="ProtocolId" />
+            </Principal>
+            <Dependent Role="Results">
+              <PropertyRef Name="ProtocolId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Registrations_Students">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Registrations" Type="Self.Registrations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Registrations">
+              <PropertyRef Name="StudentUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Results_Registrations">
+          <End Role="Registrations" Type="Self.Registrations" Multiplicity="1" />
+          <End Role="Results" Type="Self.Results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registrations">
+              <PropertyRef Name="RegistrationId" />
+            </Principal>
+            <Dependent Role="Results">
+              <PropertyRef Name="RegistrationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OlympiadTrackingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Certificates" EntityType="Self.Certificates" />
+          <EntitySet Name="Olympiads" EntityType="Self.Olympiads" />
+          <EntitySet Name="Protocols" EntityType="Self.Protocols" />
+          <EntitySet Name="Registrations" EntityType="Self.Registrations" />
+          <EntitySet Name="Results" EntityType="Self.Results" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_Certificates_Olympiads" Association="Self.FK_Certificates_Olympiads">
+            <End Role="Olympiads" EntitySet="Olympiads" />
+            <End Role="Certificates" EntitySet="Certificates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Olympiads_Users" Association="Self.FK_Olympiads_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Olympiads" EntitySet="Olympiads" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Protocols_Olympiads" Association="Self.FK_Protocols_Olympiads">
+            <End Role="Olympiads" EntitySet="Olympiads" />
+            <End Role="Protocols" EntitySet="Protocols" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Registrations_Olympiads" Association="Self.FK_Registrations_Olympiads">
+            <End Role="Olympiads" EntitySet="Olympiads" />
+            <End Role="Registrations" EntitySet="Registrations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Results_Protocols" Association="Self.FK_Results_Protocols">
+            <End Role="Protocols" EntitySet="Protocols" />
+            <End Role="Results" EntitySet="Results" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Registrations_Students" Association="Self.FK_Registrations_Students">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Registrations" EntitySet="Registrations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Results_Registrations" Association="Self.FK_Results_Registrations">
+            <End Role="Registrations" EntitySet="Registrations" />
+            <End Role="Results" EntitySet="Results" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище OlympiadTrackingModelContainer" CdmEntityContainer="OlympiadTrackingEntities">
+          <EntitySetMapping Name="Certificates">
+            <EntityTypeMapping TypeName="OlympiadTrackingModel.Certificates">
+              <MappingFragment StoreEntitySet="Certificates">
+                <ScalarProperty Name="CertificateId" ColumnName="CertificateId" />
+                <ScalarProperty Name="OlympiadId" ColumnName="OlympiadId" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Olympiads">
+            <EntityTypeMapping TypeName="OlympiadTrackingModel.Olympiads">
+              <MappingFragment StoreEntitySet="Olympiads">
+                <ScalarProperty Name="OlympiadId" ColumnName="OlympiadId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ResponsibleTeacherUserId" ColumnName="ResponsibleTeacherUserId" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="PositionDocument" ColumnName="PositionDocument" />
+                <ScalarProperty Name="TasksArchive" ColumnName="TasksArchive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Protocols">
+            <EntityTypeMapping TypeName="OlympiadTrackingModel.Protocols">
+              <MappingFragment StoreEntitySet="Protocols">
+                <ScalarProperty Name="ProtocolId" ColumnName="ProtocolId" />
+                <ScalarProperty Name="OlympiadId" ColumnName="OlympiadId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Registrations">
+            <EntityTypeMapping TypeName="OlympiadTrackingModel.Registrations">
+              <MappingFragment StoreEntitySet="Registrations">
+                <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
+                <ScalarProperty Name="StudentUserId" ColumnName="StudentUserId" />
+                <ScalarProperty Name="OlympiadId" ColumnName="OlympiadId" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Results">
+            <EntityTypeMapping TypeName="OlympiadTrackingModel.Results">
+              <MappingFragment StoreEntitySet="Results">
+                <ScalarProperty Name="ResultId" ColumnName="ResultId" />
+                <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
+                <ScalarProperty Name="ProtocolId" ColumnName="ProtocolId" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="ResultType" ColumnName="ResultType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="OlympiadTrackingModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="RoleType" ColumnName="RoleType" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="EducationalInstitution" ColumnName="EducationalInstitution" />
+                <ScalarProperty Name="EducationLevel" ColumnName="EducationLevel" />
+                <ScalarProperty Name="CourseNumber" ColumnName="CourseNumber" />
+                <ScalarProperty Name="Specialty" ColumnName="Specialty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

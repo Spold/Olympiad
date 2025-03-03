@@ -1,0 +1,43 @@
+﻿<Page x:Class="Olympiad.View.CertificatesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Olympiad.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="CertificatesPage">
+
+
+    <Grid>
+        <Border Grid.Column="0" Margin="200, 30" Grid.RowSpan="2" 
+                CornerRadius="10" Background="{DynamicResource MainBackground}">
+            <StackPanel Margin="10">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Foreground="White" Margin="0,0,10,0" 
+                               VerticalAlignment="Center">Текущий сертификат:</TextBlock>
+                    <ComboBox x:Name="CertificatesComboBox" Width="150"
+                              DisplayMemberPath="."
+                              SelectionChanged="CertificatesComboBox_SelectionChanged"/>
+                </StackPanel>
+
+                <TextBlock Foreground="White" Margin="5 10 5 0" TextAlignment="Left">Ссылка на сертификат:</TextBlock>
+                <TextBox x:Name="LinkTextBox" Style="{StaticResource RoundedTextBox}" Margin="5"/>
+
+                <TextBlock Foreground="White" Margin="5 10 5 0" TextAlignment="Left">Описание:</TextBlock>
+                <TextBox x:Name="DescriptionTextBox" Style="{StaticResource RoundedTextBox}" Margin="5"
+                          AcceptsReturn="True" TextWrapping="Wrap" Height="80"/>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 20">
+                    <Button x:Name="SaveBtn" Style="{StaticResource MainButton}" Margin="10" 
+                            Click="SaveBtn_Click">Сохранить изменения</Button>
+                    <Button x:Name="AddMoreBtn" Style="{StaticResource MainButton}" Margin="10" 
+                            Click="AddMoreBtn_Click">Добавить новый</Button>
+                    <Button x:Name="BackBtn" Style="{StaticResource MainButton}" Margin="10" 
+                            Click="BackBtn_Click">Назад</Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

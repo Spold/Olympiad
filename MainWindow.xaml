@@ -1,0 +1,101 @@
+﻿<Window x:Class="Olympiad.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Olympiad"
+        mc:Ignorable="d"
+        Closed="Window_Closed"
+        Title="MainWindow" Height="550" Width="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+
+
+        <StackPanel x:Name="NavBar" Grid.Row="0" 
+          Background="{DynamicResource MainBackground}" 
+          HorizontalAlignment="Stretch" 
+          VerticalAlignment="Center">
+
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                    x:Name="AdminPanel"
+                    Visibility="Collapsed"
+                    Foreground="White" 
+                    Margin="20 0" 
+                    Height="20"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left">
+                <Hyperlink NavigateUri="#" 
+                    Foreground="White" 
+                    TextDecorations="None" 
+                    RequestNavigate="AdminPanelLink">Панель управления</Hyperlink>
+                </TextBlock>
+                
+                <StackPanel Grid.Column="1"
+                  Orientation="Horizontal" 
+                  HorizontalAlignment="Center" 
+                  Height="50" 
+                  VerticalAlignment="Center">
+
+                    <TextBlock Foreground="White" 
+                     HorizontalAlignment="Center" 
+                     Margin="20 0" 
+                     Height="20">
+                <Hyperlink NavigateUri="#" 
+                         Foreground="White" 
+                         TextDecorations="None" 
+                         RequestNavigate="AllOlympiadsLink">Олимпиады</Hyperlink>
+                    </TextBlock>
+
+                    <TextBlock Foreground="White" 
+                     HorizontalAlignment="Center" 
+                     Margin="20 0" 
+                     Height="20">
+                <Hyperlink NavigateUri="#" 
+                         Foreground="White" 
+                         TextDecorations="None" 
+                         RequestNavigate="ProfileLink">Профиль</Hyperlink>
+                    </TextBlock>
+
+                    <TextBlock Foreground="White" 
+                     HorizontalAlignment="Center" 
+                     Margin="20 0" 
+                     Height="20">
+                <Hyperlink NavigateUri="#" 
+                         Foreground="White" 
+                         TextDecorations="None" 
+                         RequestNavigate="ResultsLink">Мои результаты</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+
+                <TextBlock Grid.Column="2"
+                          
+                 Foreground="White" 
+                 Margin="20 0" 
+                 Height="20"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Right">
+            <Hyperlink  NavigateUri="#" 
+                     Foreground="White" 
+                         x:Name="Logout"
+                     TextDecorations="None" 
+                     RequestNavigate="LogoutLink"><Run x:Name="LogoutText" Text="Войти"/></Hyperlink>
+                </TextBlock>
+
+
+            </Grid>
+        </StackPanel>
+
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="1"  />
+    </Grid>
+</Window>

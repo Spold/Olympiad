@@ -1,0 +1,56 @@
+﻿<Page x:Class="Olympiad.View.ProtocolEditPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Olympiad.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ProtocolEditPage">
+
+    <Page.Resources>
+        <x:Array x:Key="ResultTypes" Type="sys:String" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:String>Participant</sys:String>
+            <sys:String>PrizeWinner</sys:String>
+            <sys:String>Winner</sys:String>
+        </x:Array>
+    </Page.Resources>
+
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Редактирование протокола" 
+               FontSize="16" FontWeight="Bold" Margin="0 0 0 10"/>
+
+        <DataGrid x:Name="ParticipantsGrid" Grid.Row="1" 
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              ItemsSource="{Binding participants}"
+              Margin="0 0 0 10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Баллы" Binding="{Binding Score}" Width="100"/>
+                <DataGridTemplateColumn Header="Результат" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox 
+                                 SelectedItem="{Binding Result, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{StaticResource ResultTypes}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Скачать протокол" Click="DownloadButton_Click" Style="{StaticResource MainButton}" Margin="5" Padding="10 5"/>
+            <Button Content="Сохранить" Click="SaveButton_Click" Style="{StaticResource MainButton}" Margin="5" Padding="10 5"/>
+            <Button Content="Назад" Click="CancelButton_Click" Style="{StaticResource MainButton}" Margin="5" Padding="10 5"/>
+        </StackPanel>
+    </Grid>
+
+</Page>

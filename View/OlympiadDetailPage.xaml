@@ -1,0 +1,125 @@
+﻿<Page x:Class="Olympiad.View.OlympiadDetailPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Olympiad.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="OlympiadDetailPage">
+
+    <Grid Margin="50 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+
+        <StackPanel>
+
+            <TextBlock Grid.Column="0"
+           Foreground="Black" 
+           Margin="20 10" 
+           Height="20"
+           VerticalAlignment="Center"
+           HorizontalAlignment="Left">
+    <Hyperlink NavigateUri="OlympiadListView.xaml" 
+               Foreground="Black" 
+               TextDecorations="None" 
+               RequestNavigate="BackArrowlLink">  
+        <StackPanel Orientation="Horizontal" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left">
+            <Image Source="../Assets/Image/left-arrow.png" 
+                   Width="12" 
+                   VerticalAlignment="Center"
+                   Margin="0 0 5 0"/>
+            <TextBlock Text="Назад" 
+                       VerticalAlignment="Center"/>
+        </StackPanel>
+    </Hyperlink>
+</TextBlock>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="OlympiadTextBlock"
+                   FontWeight="Bold"
+                   FontSize="24"
+                   VerticalAlignment="Center"/>
+
+            <Button Grid.Column="1" Click="RegistrationOlompiad_CLick"  Style="{StaticResource MainButton}" >Участвовать</Button>
+
+        </Grid>
+
+        <Grid  Margin="0 30" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+
+
+                <Border Grid.Column="0" 
+        Background="#CACFD3" 
+        HorizontalAlignment="Center" 
+        Width="400" 
+        CornerRadius="10">
+                    <StackPanel>
+                        <Grid Margin="10 30">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel VerticalAlignment="Top" Grid.Column="0">
+                                <WrapPanel Grid.Column="0" Orientation="Vertical">
+                                    <TextBlock Text="Дата проведения:"/>
+                                    <TextBlock x:Name="OlympiadDateTextBlock"/>
+                                </WrapPanel>
+
+                                <WrapPanel Grid.Column="0" Orientation="Vertical">
+                                    <TextBlock Text="Ответственный преподаватель:"/>
+                                    <TextBlock x:Name="TeacherTextBlock"/>
+                                </WrapPanel>
+                            </StackPanel>
+
+                            <StackPanel VerticalAlignment="Center" Margin="20 0" Grid.Column="1">
+                                <WrapPanel Orientation="Vertical">
+                                    <TextBlock Text="Положение:"/>
+                                    <TextBlock x:Name="PositionTextBlock"><Hyperlink x:Name="PositionLink" NavigateUri="#" RequestNavigate="PositionLink_RequestNavigate">Посмотреть</Hyperlink></TextBlock>
+                                </WrapPanel>
+
+                                <WrapPanel Orientation="Vertical">
+                                    <TextBlock Text="Архив прошлых заданий:"/>
+                                    <TextBlock x:Name="ArchiveTextBlock"><Hyperlink x:Name="ArchiveLink" NavigateUri="#" RequestNavigate="ArchiveLink_RequestNavigate">Посмотреть</Hyperlink></TextBlock>
+                                </WrapPanel>
+
+                                <WrapPanel Orientation="Vertical">
+                                    <TextBlock Text="Протокол:"/>
+                                    <TextBlock x:Name="ProtocolTextBlock"><Hyperlink x:Name="ProtocolLink" NavigateUri="#" RequestNavigate="ProtocolLink_RequestNavigate">Посмотреть</Hyperlink></TextBlock>
+                                </WrapPanel>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+          
+            <StackPanel x:Name="ActionStackPanel" Visibility="Collapsed" Grid.Column="1">
+                <Button Grid.Column="1"  Click="CreateReport_Click"  VerticalAlignment="Top" HorizontalAlignment="Right" Style="{StaticResource MainButton}" Content="Создать отчет" Height="30" Width="135"/>
+                <StackPanel x:Name="TeacherStackPanel" Visibility="Collapsed">
+                    <Button Grid.Column="1" Click="EditDocument_Click" Margin="0 10" HorizontalAlignment="Right" Style="{StaticResource MainButton}" Content="Изменить документы" Height="30" Width="135"/>
+                    <Button Grid.Column="1"  HorizontalAlignment="Right" Style="{StaticResource MainButton}" Content="Офрмление протокола" Click="EditResults_Click" Height="30" Width="135"/>
+                    <Button Grid.Column="1" Click="EditCertificate_Click" Margin="0 10" HorizontalAlignment="Right" Style="{StaticResource MainButton}" Content="Сертификаты" Height="30" Width="135"/>
+                </StackPanel>
+               
+            </StackPanel>
+           
+        </Grid>
+    </Grid>
+</Page>
