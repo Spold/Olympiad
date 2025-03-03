@@ -39,9 +39,7 @@ namespace Olympiad.View
 
         private void LoadCertificates()
         {
-            certificates = db.context.Certificates
-                .Where(x => x.OlympiadId == _olympiadId)
-                .ToList();
+            certificates = certificatesController.LoadAllCertificates(_olympiadId);
 
         }
 

@@ -12,6 +12,13 @@ namespace Olympiad.Controllers
     {
         Core db = new Core();
 
+        public List<Certificates> LoadAllCertificates(int _olympiadId)
+        {
+            return db.context.Certificates
+                .Where(x => x.OlympiadId == _olympiadId)
+                .ToList();
+
+        }
 
         public bool CheckNewCertificate(int olimpid, string filepath, string desc)
         {
