@@ -1,4 +1,5 @@
-﻿using Olympiad.Model;
+﻿using Olympiad.Controllers;
+using Olympiad.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,7 +29,7 @@ namespace Olympiad.View
     {
         int olimpId;
         Core db = new Core();
-
+        OlympiadsController olympiadsController = new OlympiadsController();
         public OlimpiadDocumentPage(int olimpiadId)
         {
 
@@ -69,48 +70,9 @@ namespace Olympiad.View
             try
             {
 
-                    var olympiad = db.context.Olympiads
-                        .Include("Protocols")
-                        .FirstOrDefault(x => x.OlympiadId == olimpId);
+                olympiadsController.UpdateOlympiadData(olimpId, PositionTextBox.Text, TeskArchiveTextBox.Text, ProtocolTextBox.Text, ProtocolStatusBox.Text);
 
-                    if (olympiad == null)
-                    {
-                    throw new Exception("Олимпиада не найдена");
-                    }
 
-                    olympiad.PositionDocument = PositionTextBox.Text;
-                    olympiad.TasksArchive = TeskArchiveTextBox.Text;
-
-                    var protocol = olympiad.Protocols.FirstOrDefault();
-
-                    if (protocol != null && protocol.IsPublished)
-                    {
-                        MessageBox.Show("Протокол опубликован. Редактирование пути и статуса запрещено");
-                    }
-                    else
-                    {
-                       
-                        if (protocol != null)
-                        {
-                            protocol.FilePath = ProtocolTextBox.Text;
-                            protocol.Status = ProtocolStatusBox.Text;
-                        }
-                        else
-                        {
-                            var newProtocol = new Protocols
-                            {
-                                OlympiadId = olimpId,
-                                FilePath = ProtocolTextBox.Text,
-                                Status = ProtocolStatusBox.Text,
-                                IsPublished = false
-                            };
-                            db.context.Protocols.Add(newProtocol);
-                        }
-                    }
-
-                    db.context.SaveChanges();
-                    MessageBox.Show("Данные успешно обновлены");
-                
             }
             catch (Exception ex)
             {

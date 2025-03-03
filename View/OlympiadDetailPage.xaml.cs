@@ -31,16 +31,14 @@ namespace Olympiad.View
         List<Users> usersarray = new List<Users>();
         RegistrationsController registrationsController = new RegistrationsController();
         ExcelReportService excelReportService = new ExcelReportService();
+        OlympiadsController olympiadsController = new OlympiadsController();
         int olimpId;
         string urlProtocol;
         string urlPosition;
         string urlArchive;
         public OlympiadDetailPage(int id)
         {
-            olimparr = db.context.Olympiads
-                .Include("Protocols")
-                .Where(x => x.OlympiadId == id)
-                .ToList();
+            olimparr = olympiadsController.LoadOlympiadsAndProtocols(id);
 
             InitializeComponent();
 
