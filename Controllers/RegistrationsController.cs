@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Data.Entity;
+using System.Windows;
 
 namespace Olympiad.Controllers
 {
@@ -13,6 +14,7 @@ namespace Olympiad.Controllers
     {
         Core db = new Core();
         List<Registrations> registrations = new List<Registrations>();
+        ProtocolsController protocolsController = new ProtocolsController();
 
         public bool CheckUserRegistration(int userId, int olympiadId)
         {
@@ -59,6 +61,45 @@ namespace Olympiad.Controllers
                   .ToList();
 
             return participants;
+        }
+
+        public bool SaveResults(List<ParticipantInfo> updatedParticipants)
+        {
+            if (updatedParticipants == null)
+            {
+                MessageBox.Show("Нет данных для сохранения.");
+                return false;
+            }
+
+            foreach (var participant in updatedParticipants)
+            {
+                var registration = db.context.Registrations
+                    .Include(r => r.Results)
+                    .FirstOrDefault(r => r.RegistrationId == participant.RegistrationId);
+
+                if (registration == null)
+                {
+                    MessageBox.Show($"Регистрация с ID {participant.RegistrationId} не найдена.");
+                    continue;
+                }
+
+                var result = registration.Results.FirstOrDefault();
+                if (result == null)
+                {
+                    result = new Results
+                    {
+                        RegistrationId = participant.RegistrationId,
+                        ProtocolId = protocolsController.GetOrCreateProtocolId(registration.OlympiadId)
+                    };
+                    db.context.Results.Add(result);
+                }
+
+                result.Score = participant.Score ?? 0;
+                result.ResultType = participant.Result;
+            }
+
+            db.context.SaveChanges();
+            return true;
         }
     }
 }

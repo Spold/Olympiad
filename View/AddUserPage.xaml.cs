@@ -56,7 +56,7 @@ namespace Olympiad.View
                 {
                     role = 2;
                 }
-                bool result = userController.CheckNewUser(login, password, role, firstname, lastname, patronymic, email, dateTime, institution, educationLevel, courseNumber, specialization);
+                bool result = userController.CheckNewUser(login, password, role, firstname, lastname, patronymic, email, dateTime, institution, educationLevel, courseNumber, specialization, true);
 
                 if (result)
                 {

@@ -33,6 +33,10 @@ namespace Olympiad.View
         {
             InitializeComponent();
             this.userId = userId;
+            List<string> educationList = new List<string>() { "Высшее", "Среднее профессиональное", "Среднее общее"};
+            List<int> courseNumberList = new List<int>() {1,2,3,4,5};
+            EducationLevelComboBox.ItemsSource = educationList;
+            CourseComboBox.ItemsSource = courseNumberList;
             LoadUserData();
         }
 
@@ -76,22 +80,14 @@ namespace Olympiad.View
                 {
                     throw new Exception("Пользователь не найден");
                 }
-                Debug.WriteLine(EducationLevelComboBox.SelectedItem.ToString());
 
-                user.Login = LoginTextBox.Text;
-                    user.PasswordHash = PasswordBox.Password;
-                    user.FirstName = FirstNameTextBox.Text;
-                    user.LastName = LastNameTextBox.Text;
-                    user.Patronymic = MiddleNameTextBox.Text;
-                    user.Email = EmailTextBox.Text;
-                    user.DateOfBirth = BirthDatePicker.SelectedDate;
-                    //user.EducationLevel = (string)EducationLevelComboBox.SelectedItem;
-                    user.EducationalInstitution = InstitutionTextBox.Text;
-                    user.CourseNumber = CourseComboBox.SelectedIndex;
-                    user.Specialty = SpecializationTextBox.Text;
-                    db.context.SaveChanges();
-                    MessageBox.Show("Данные пользователя успешно обновлены.");
-                
+                if(userController.CheckNewUser(LoginTextBox.Text, PasswordBox.Password, user.RoleType, FirstNameTextBox.Text, LastNameTextBox.Text, MiddleNameTextBox.Text, EmailTextBox.Text,
+                     BirthDatePicker.SelectedDate,  InstitutionTextBox.Text, EducationLevelComboBox.Text,  (int?)CourseComboBox.SelectedItem, SpecializationTextBox.Text, false))
+                {
+                    userController.UpdateUserData(userId, LoginTextBox.Text, PasswordBox.Password, user.RoleType, FirstNameTextBox.Text, LastNameTextBox.Text, MiddleNameTextBox.Text, EmailTextBox.Text,
+                     BirthDatePicker.SelectedDate,  InstitutionTextBox.Text, EducationLevelComboBox.Text, (int?)CourseComboBox.SelectedItem, SpecializationTextBox.Text);
+                }
+                   
 
 
 

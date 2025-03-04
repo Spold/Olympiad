@@ -60,21 +60,13 @@
 
 
                 <TextBlock Foreground="White" Margin="5 0" TextAlignment="Left">Уровень образования:</TextBlock>
-                <ComboBox x:Name="EducationLevelComboBox" Margin="5">
-                    <ComboBoxItem>Среднее общее</ComboBoxItem>
-                    <ComboBoxItem>Среднее профессиональное</ComboBoxItem>
-                    <ComboBoxItem>Высшее</ComboBoxItem>
-                </ComboBox>
+                <ComboBox x:Name="EducationLevelComboBox" Margin="5"/>
+
 
 
                 <TextBlock Foreground="White" Margin="5 0" TextAlignment="Left">Курс обучения:</TextBlock>
-                <ComboBox x:Name="CourseComboBox" Margin="5">
-                    <ComboBoxItem>1</ComboBoxItem>
-                    <ComboBoxItem>2</ComboBoxItem>
-                    <ComboBoxItem>3</ComboBoxItem>
-                    <ComboBoxItem>4</ComboBoxItem>
-                    <ComboBoxItem>5</ComboBoxItem>
-                </ComboBox>
+                <ComboBox x:Name="CourseComboBox" Margin="5"/>
+
 
 
                 <TextBlock Foreground="White" Margin="5" TextAlignment="Left">Специализация:</TextBlock>

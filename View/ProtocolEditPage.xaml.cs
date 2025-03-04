@@ -32,7 +32,7 @@ namespace Olympiad.View
         Core db = new Core();
         Users users = new Users();
         Olympiads olympiad = new Olympiads();
-        RegistrationsController registrationsVM = new RegistrationsController();
+        RegistrationsController registrationsController = new RegistrationsController();
         ExcelReportService excelReportService = new ExcelReportService();
         int olympId = 0;
 
@@ -41,7 +41,7 @@ namespace Olympiad.View
             InitializeComponent();
             olympId = olympiadId;
             olympiad = db.context.Olympiads.FirstOrDefault(x => x.OlympiadId == olympiadId);
-            var participants = registrationsVM.ProtocolsEdit(olympiadId);
+            var participants = registrationsController.ProtocolsEdit(olympiadId);
            
             ParticipantsGrid.ItemsSource = participants;
             
@@ -53,44 +53,14 @@ namespace Olympiad.View
             try
             {
 
-                    var updatedParticipants = ParticipantsGrid.ItemsSource as List<ParticipantInfo>;
-
-                    if (updatedParticipants == null)
-                    {
-                        MessageBox.Show("Нет данных для сохранения.");
-                        return;
-                    }
-
-                    foreach (var participant in updatedParticipants)
-                    {
-                        var registration = db.context.Registrations
-                            .Include(r => r.Results)
-                            .FirstOrDefault(r => r.RegistrationId == participant.RegistrationId);
-
-                        if (registration == null)
-                        {
-                            MessageBox.Show($"Регистрация с ID {participant.RegistrationId} не найдена.");
-                            continue;
-                        }
-
-                        var result = registration.Results.FirstOrDefault();
-                        if (result == null)
-                        {
-                            result = new Results
-                            {
-                                RegistrationId = participant.RegistrationId,
-                                ProtocolId = GetOrCreateProtocolId(db, registration.OlympiadId)
-                            };
-                            db.context.Results.Add(result);
-                        }
-
-                        result.Score = participant.Score ?? 0;
-                        result.ResultType = participant.Result;
+                var updatedParticipants = ParticipantsGrid.ItemsSource as List<ParticipantInfo>;
+                if (registrationsController.SaveResults(updatedParticipants))
+                {
+                    MessageBox.Show("Данные успешно сохранены!");
                 }
 
-                    db.context.SaveChanges();
-                    MessageBox.Show("Данные успешно сохранены!");
-                
+
+
             }
             catch (Exception ex)
             {
@@ -98,26 +68,7 @@ namespace Olympiad.View
             }
         }
 
-        private int GetOrCreateProtocolId(Core db, int olympiadId)
-        {
-            var protocol = db.context.Protocols
-                .FirstOrDefault(p => p.OlympiadId == olympiadId);
-
-            if (protocol == null)
-            {
-                protocol = new Protocols
-                {
-                    OlympiadId = olympiadId,
-                    Status = "draft",
-                    FilePath = null,
-                    IsPublished = false
-                };
-                db.context.Protocols.Add(protocol);
-                db.context.SaveChanges();
-            }
-
-            return protocol.ProtocolId;
-        }
+       
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.GoBack();

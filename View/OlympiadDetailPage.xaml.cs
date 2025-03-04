@@ -115,9 +115,8 @@ namespace Olympiad.View
         {
             try
             {
-                bool result = registrationsController.CheckUserRegistration(Properties.Settings.Default.UserId, olimpId);
-
-                if (result)
+             
+                if (registrationsController.CheckUserRegistration(Properties.Settings.Default.UserId, olimpId))
                 {
                     MessageBox.Show("Регистрация прошла успешно");
                     registrationsController.RegistrationOnOlimpiad(Properties.Settings.Default.UserId, olimpId);

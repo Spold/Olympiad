@@ -70,6 +70,7 @@
     </ApplicationDefinition>
     <Compile Include="Controllers\CertificatesController.cs" />
     <Compile Include="Controllers\OlympiadsController.cs" />
+    <Compile Include="Controllers\ProtocolsController.cs" />
     <Compile Include="Controllers\RegistrationsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Model\Certificates.cs">

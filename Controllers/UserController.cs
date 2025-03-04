@@ -53,7 +53,7 @@ namespace Olympiad.Controllers
         }
 
         public bool CheckNewUser(string login, string password, int roletype, string firstname, string lastname, string patronymic, string email, DateTime? BirthDate,
-                                   string educationalInstitution, string educationLevel, int coursenumber, string speciality)
+                                   string educationalInstitution, string educationLevel, int? coursenumber, string speciality, bool newUser)
         {
             string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(?:[a-zA-Z]{2,63})$";
 
@@ -62,7 +62,7 @@ namespace Olympiad.Controllers
                 throw new Exception("Логин не введен");
             }
 
-            if (db.context.Users.Any(x => x.Login == login))
+            if (db.context.Users.Any(x => x.Login == login) && newUser == true)
             {
                 throw new Exception("Такой логин уже существует");
             }
@@ -92,20 +92,20 @@ namespace Olympiad.Controllers
                 throw new Exception("Email не введен");
             }
 
-            if (string.IsNullOrEmpty(educationalInstitution))
-            {
-                throw new Exception("Учебное заведение не введено");
-            }
+            //if (string.IsNullOrEmpty(educationalInstitution))
+            //{
+            //    throw new Exception("Учебное заведение не введено");
+            //}
 
-            if (string.IsNullOrEmpty(educationLevel))
-            {
-                throw new Exception("Уровень образования не введен");
-            }
+            //if (string.IsNullOrEmpty(educationLevel))
+            //{
+            //    throw new Exception("Уровень образования не введен");
+            //}
 
-            if (string.IsNullOrEmpty(speciality))
-            {
-                throw new Exception("Специальность не введена");
-            }
+            //if (string.IsNullOrEmpty(speciality))
+            //{
+            //    throw new Exception("Специальность не введена");
+            //}
 
             if (login.Contains(" "))
             {
@@ -138,6 +138,35 @@ namespace Olympiad.Controllers
             }
 
             return true;
+
+        }
+
+        public void UpdateUserData(int userid, string login, string password, int roletype, string firstname, string lastname, string patronymic, string email, DateTime? BirthDate,
+                             string educationalInstitution, string educationLevel, int? coursenumber, string speciality)
+        {
+            var user = db.context.Users.FirstOrDefault(u => u.UserId == userid);
+
+            if (user == null)
+            {
+                throw new Exception("Пользователь не найден");
+            }
+
+            user.Login = login;
+            user.PasswordHash = password;
+            user.RoleType = roletype;
+            user.FirstName = firstname;
+            user.LastName = lastname;
+            user.Patronymic = patronymic;
+            user.Email = email;
+            user.DateOfBirth = BirthDate;
+            user.EducationalInstitution = educationalInstitution;
+            user.EducationLevel = educationLevel;
+            user.CourseNumber = coursenumber;
+            user.Specialty = speciality;
+
+            db.context.SaveChanges();
+            MessageBox.Show($"Пользователь {firstname} {lastname} обновлен.");
+
 
         }
 

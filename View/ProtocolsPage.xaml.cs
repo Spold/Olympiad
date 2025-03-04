@@ -1,4 +1,5 @@
-﻿using Olympiad.Model;
+﻿using Olympiad.Controllers;
+using Olympiad.Model;
 using Olympiad.Model.PartialClasses;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace Olympiad.View
     public partial class ProtocolsPage : Page
     {
         Core db = new Core();
+        ProtocolsController protocolsController = new ProtocolsController();
         string url;
 
         public ProtocolsPage()
@@ -34,19 +36,7 @@ namespace Olympiad.View
 
         public void LoadData()
         {
-            var data = db.context.Protocols
-                .Where(p => !p.IsPublished && p.Status == "prepared")
-                .Join(db.context.Olympiads,
-                p => p.OlympiadId,
-                o => o.OlympiadId,
-                (p, o) => new ProtocolViewModel
-                {
-                    ProtocolId = p.ProtocolId,
-                    Name = o.Name,
-                    Status = p.Status,
-                    FilePath = p.FilePath
-                })
-                .ToList();
+            var data = protocolsController.LoadPreparedProtocols();
 
             OlympiadProtocolsList.ItemsSource = data;
 
@@ -67,17 +57,12 @@ namespace Olympiad.View
             {
                 try
                 {
-
-                    var protocol = db.context.Protocols
-                        .FirstOrDefault(p => p.ProtocolId == report.ProtocolId);
-
-                    if (protocol != null)
+                    if (protocolsController.PublishProtocol(report.ProtocolId))
                     {
-                        protocol.IsPublished = true;
-                        db.context.SaveChanges();
-                        MessageBox.Show("Протокол успешно опубликован");
                         LoadData();
                     }
+
+                    
                 }
                 catch (Exception)
                 {
