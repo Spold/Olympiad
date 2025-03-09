@@ -23,7 +23,7 @@ namespace Olympiad.View
     public partial class OlympiadListView : Page
     {
         Core db = new Core();
-        ObservableCollection<Olympiads> olimparr = new ObservableCollection<Olympiads>();
+        List<Olympiads> olimparr = new List<Olympiads>();
         List<Registrations> registrationsarr = new List<Registrations>();
         public OlympiadListView()
         {
@@ -45,12 +45,12 @@ namespace Olympiad.View
                 ParticipantRadioButton.Visibility = Visibility.Collapsed;
                 AllOlympiadsRadio.Visibility = Visibility.Collapsed;
             }
-            else if(Properties.Settings.Default.UserRole == 1 || Properties.Settings.Default.UserRole == 3)
+            else if (Properties.Settings.Default.UserRole == 1 || Properties.Settings.Default.UserRole == 3)
             {
                 ParticipantRadioButton.Visibility = Visibility.Visible;
                 AllOlympiadsRadio.Visibility = Visibility.Visible;
             }
-            else if(Properties.Settings.Default.UserRole == 2)
+            else if (Properties.Settings.Default.UserRole == 2)
             {
                 TutorRadioButton.Visibility = Visibility.Visible;
                 ParticipantRadioButton.Visibility = Visibility.Visible;
@@ -60,25 +60,16 @@ namespace Olympiad.View
 
         public void TutorOlympiads()
         {
-
-                olimparr.Clear();
-                foreach (var item in db.context.Olympiads.Where(x => x.ResponsibleTeacherUserId == Properties.Settings.Default.UserId).ToList())
-                {
-                    olimparr.Add(item);
-                }
-                YearSortOlimpiads();
-            
-
+            olimparr.Clear();
+            olimparr = db.context.Olympiads.Where(x => x.ResponsibleTeacherUserId == Properties.Settings.Default.UserId).ToList();
+            YearSortOlimpiads();
         }
 
 
         public void AllOlympiads()
         {
             olimparr.Clear();
-            foreach (var item in db.context.Olympiads.ToList())
-            {
-                olimparr.Add(item);
-            }
+            olimparr = db.context.Olympiads.ToList();
             YearSortOlimpiads();
         }
 
@@ -86,12 +77,8 @@ namespace Olympiad.View
         {
             olimparr.Clear();
             List<int> olympiadIds = registrationsarr.Select(x => x.OlympiadId).ToList();
-            foreach (var item in db.context.Olympiads.Where(x => olympiadIds.Contains(x.OlympiadId)).ToList())
-            {
-                olimparr.Add(item);
-            }
+            olimparr = db.context.Olympiads.Where(x => olympiadIds.Contains(x.OlympiadId)).ToList();
             YearSortOlimpiads();
-      
         }
 
         public void YearSortOlimpiads()
@@ -105,17 +92,12 @@ namespace Olympiad.View
             }
             else
             {
-                if (int.TryParse(selectedYear, out int year)) 
+                if (int.TryParse(selectedYear, out int year))
                 {
 
-                    olimparr = new ObservableCollection<Olympiads>(
-     olimparr.Where(x => x.StartDate.Year == year).ToList()
- );
+                    olimparr = olimparr.Where(x => x.StartDate.Year == year).ToList();
                     OlympiadList.ItemsSource = olimparr;
-                    OlympiadList.Items.Refresh(); // Добавлено
                 }
-
-
             }
         }
 
@@ -123,8 +105,6 @@ namespace Olympiad.View
 
         private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (NavigationService == null) return; // Добавлена проверка
-
             StackPanel stackPanel = sender as StackPanel;
             Olympiads olympiads = stackPanel.DataContext as Olympiads;
             this.NavigationService.Navigate(new OlympiadDetailPage(olympiads.OlympiadId));
