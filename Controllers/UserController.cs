@@ -67,6 +67,12 @@ namespace Olympiad.Controllers
                 throw new Exception("Такой логин уже существует");
             }
 
+
+            if (db.context.Users.Any(x => x.Email == email) && newUser == true)
+            {
+                throw new Exception("Такая почта уже используеться");
+            }
+
             if (string.IsNullOrEmpty(password))
             {
                 throw new Exception("Пароль не введен");

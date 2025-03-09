@@ -59,7 +59,7 @@ namespace Olympiad
                 MainFrame.Navigate(new AdminPage());
             }
             else if(Properties.Settings.Default.UserRole == 2){
-                MessageBox.Show("Учитель пока не готов");
+                MainFrame.Navigate(new AddUserPage());
             }
         }
 
@@ -88,6 +88,10 @@ namespace Olympiad
             LogoutText.Text = Properties.Settings.Default.UserId == 0
                 ? "Войти"
                 : "Выйти";
+
+            PanelText.Text = Properties.Settings.Default.UserRole == 1
+                ? "Панель управления"
+                : "Добавить пользователя";
         }
 
 

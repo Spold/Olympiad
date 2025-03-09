@@ -15,8 +15,6 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-
-        <!--Кнопка назад-->
         <StackPanel>
 
             <TextBlock Grid.Column="0"

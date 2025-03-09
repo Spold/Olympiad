@@ -26,10 +26,11 @@ namespace Olympiad.View
         public ProfileUserPage()
         {
             InitializeComponent();
+            DateTime.TryParse(user.DateOfBirth.ToString(), out DateTime bday);
             user = db.context.Users.Where(x => x.UserId == Properties.Settings.Default.UserId).FirstOrDefault();
             UserNameTextBlock.Text = user.FIO;
             EmailTextBlock.Text = user.Email;
-            BirthdayTextBlock.Text = user.DateOfBirth.ToString();
+            BirthdayTextBlock.Text = bday.ToString("d");
             SpecializationTextBlock.Text = user.EducationalInstitution;
         }
 

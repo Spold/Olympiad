@@ -38,7 +38,7 @@
                 <Hyperlink NavigateUri="#" 
                     Foreground="White" 
                     TextDecorations="None" 
-                    RequestNavigate="AdminPanelLink">Панель управления</Hyperlink>
+                    RequestNavigate="AdminPanelLink"><TextBlock x:Name="PanelText"/></Hyperlink>
                 </TextBlock>
                 
                 <StackPanel Grid.Column="1"

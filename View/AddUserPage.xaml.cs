@@ -50,7 +50,7 @@ namespace Olympiad.View
 
 
 
-           try
+            try
             {
                 if (Properties.Settings.Default.UserId == 1)
                 {
