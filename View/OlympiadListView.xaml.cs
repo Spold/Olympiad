@@ -1,6 +1,7 @@
 ﻿using Olympiad.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace Olympiad.View
     public partial class OlympiadListView : Page
     {
         Core db = new Core();
-        List<Olympiads> olimparr = new List<Olympiads>();
+        ObservableCollection<Olympiads> olimparr = new ObservableCollection<Olympiads>();
         List<Registrations> registrationsarr = new List<Registrations>();
         public OlympiadListView()
         {
@@ -59,16 +60,25 @@ namespace Olympiad.View
 
         public void TutorOlympiads()
         {
-            olimparr.Clear();
-            olimparr = db.context.Olympiads.Where(x => x.ResponsibleTeacherUserId == Properties.Settings.Default.UserId).ToList();
-            YearSortOlimpiads();
+
+                olimparr.Clear();
+                foreach (var item in db.context.Olympiads.Where(x => x.ResponsibleTeacherUserId == Properties.Settings.Default.UserId).ToList())
+                {
+                    olimparr.Add(item);
+                }
+                YearSortOlimpiads();
+            
+
         }
 
 
         public void AllOlympiads()
         {
             olimparr.Clear();
-            olimparr = db.context.Olympiads.ToList();
+            foreach (var item in db.context.Olympiads.ToList())
+            {
+                olimparr.Add(item);
+            }
             YearSortOlimpiads();
         }
 
@@ -76,8 +86,12 @@ namespace Olympiad.View
         {
             olimparr.Clear();
             List<int> olympiadIds = registrationsarr.Select(x => x.OlympiadId).ToList();
-            olimparr = db.context.Olympiads.Where(x => olympiadIds.Contains(x.OlympiadId)).ToList();
+            foreach (var item in db.context.Olympiads.Where(x => olympiadIds.Contains(x.OlympiadId)).ToList())
+            {
+                olimparr.Add(item);
+            }
             YearSortOlimpiads();
+      
         }
 
         public void YearSortOlimpiads()
@@ -93,9 +107,12 @@ namespace Olympiad.View
             {
                 if (int.TryParse(selectedYear, out int year)) 
                 {
-                 
-                    olimparr = olimparr.Where(x => x.StartDate.Year == year).ToList();
+
+                    olimparr = new ObservableCollection<Olympiads>(
+     olimparr.Where(x => x.StartDate.Year == year).ToList()
+ );
                     OlympiadList.ItemsSource = olimparr;
+                    OlympiadList.Items.Refresh(); // Добавлено
                 }
 
 
@@ -106,6 +123,8 @@ namespace Olympiad.View
 
         private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (NavigationService == null) return; // Добавлена проверка
+
             StackPanel stackPanel = sender as StackPanel;
             Olympiads olympiads = stackPanel.DataContext as Olympiads;
             this.NavigationService.Navigate(new OlympiadDetailPage(olympiads.OlympiadId));

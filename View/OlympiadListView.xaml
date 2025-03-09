@@ -54,7 +54,8 @@
                 Margin="0 10"
                 Width="190" 
                 Height="120">
-                        <StackPanel MouseLeftButtonDown ="StackPanel_MouseLeftButtonDown">
+                        <StackPanel PreviewMouseLeftButtonDown ="StackPanel_MouseLeftButtonDown"
+                                    Background="Transparent">
                             <TextBlock Text="{Binding Name}"
                     FontWeight="Bold"
                     Margin="0 10"
