@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olympiad", "Olympiad.csproj", "{7A5099E6-D7A2-48D7-8A8E-53FE5ACEADB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OlympiadTests", "..\OlympiadTests\OlympiadTests.csproj", "{CD9272B8-B738-4676-8FBE-B08EDA0F4FB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7A5099E6-D7A2-48D7-8A8E-53FE5ACEADB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A5099E6-D7A2-48D7-8A8E-53FE5ACEADB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A5099E6-D7A2-48D7-8A8E-53FE5ACEADB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD9272B8-B738-4676-8FBE-B08EDA0F4FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD9272B8-B738-4676-8FBE-B08EDA0F4FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD9272B8-B738-4676-8FBE-B08EDA0F4FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD9272B8-B738-4676-8FBE-B08EDA0F4FB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

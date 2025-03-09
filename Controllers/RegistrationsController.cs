@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Data.Entity;
 using System.Windows;
+using Olympiad.Model.PartialClasses;
+using System.Windows.Controls;
 
 namespace Olympiad.Controllers
 {
-    internal class RegistrationsController
+    public class RegistrationsController
     {
         Core db = new Core();
         List<Registrations> registrations = new List<Registrations>();
@@ -18,11 +20,15 @@ namespace Olympiad.Controllers
 
         public bool CheckUserRegistration(int userId, int olympiadId)
         {
-            if (userId == 0 || olympiadId == 0)
+            if (userId == 0)
             {
-                throw new ArgumentException("Пользователь или олимпиада не найдена");
+                throw new Exception("Войдите в свой аккаунт чтобы участвовать в олимпиаде!");
             }
 
+            if (olympiadId == 0)
+            {
+                throw new Exception("Олимпиада не найдена в системе");
+            }
 
             bool isRegistrationExists = db.context.Registrations
                 .Any(r => r.StudentUserId == userId && r.OlympiadId == olympiadId);
@@ -30,7 +36,7 @@ namespace Olympiad.Controllers
             return !isRegistrationExists;
         }
 
-        public void RegistrationOnOlimpiad(int userId, int olimpiadId)
+        public int RegistrationOnOlimpiad(int userId, int olimpiadId)
         {
             Registrations newRegist = new Registrations()
             {
@@ -41,7 +47,7 @@ namespace Olympiad.Controllers
 
 
             db.context.Registrations.Add(newRegist);
-            db.context.SaveChanges();
+            return db.context.SaveChanges();
 
         }
 

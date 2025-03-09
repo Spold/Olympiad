@@ -48,6 +48,7 @@ namespace Olympiad.View
 
         private void Report_Click(object sender, RoutedEventArgs e)
         {
+
             Button button = sender as Button;
             var report = button.DataContext as ProtocolViewModel;
 

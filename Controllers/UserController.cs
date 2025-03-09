@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace Olympiad.Controllers
 {
-    internal class UserController
+    public class UserController
     {
         Core db = new Core();
         public bool CheckLogin(string login, string password)
@@ -141,7 +141,7 @@ namespace Olympiad.Controllers
 
         }
 
-        public void UpdateUserData(int userid, string login, string password, int roletype, string firstname, string lastname, string patronymic, string email, DateTime? BirthDate,
+        public int UpdateUserData(int userid, string login, string password, int roletype, string firstname, string lastname, string patronymic, string email, DateTime? BirthDate,
                              string educationalInstitution, string educationLevel, int? coursenumber, string speciality)
         {
             var user = db.context.Users.FirstOrDefault(u => u.UserId == userid);
@@ -164,13 +164,13 @@ namespace Olympiad.Controllers
             user.CourseNumber = coursenumber;
             user.Specialty = speciality;
 
-            db.context.SaveChanges();
             MessageBox.Show($"Пользователь {firstname} {lastname} обновлен.");
+            return db.context.SaveChanges();
 
 
         }
 
-        public void AddNewUser(string login, string password, int roletype, string firstname, string lastname, string patronymic, string email, DateTime? BirthDate, 
+        public int AddNewUser(string login, string password, int roletype, string firstname, string lastname, string patronymic, string email, DateTime? BirthDate, 
                                string educationalInstitution, string educationLevel, int coursenumber, string speciality)
         {
             Users newUser = new Users()
@@ -192,7 +192,7 @@ namespace Olympiad.Controllers
 
             MessageBox.Show($"Пользователь по имени {firstname} {lastname} добавлен, роль равна {roletype}.");
             db.context.Users.Add(newUser);
-            db.context.SaveChanges();
+            return db.context.SaveChanges();
 
         }
     }

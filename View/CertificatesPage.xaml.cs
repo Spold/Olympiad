@@ -74,6 +74,7 @@ namespace Olympiad.View
                     if (isNewEntry || CertificatesComboBox.SelectedIndex == -1)
                     {
                         certificatesController.AddNewCertificate(_olympiadId, LinkTextBox.Text, DescriptionTextBox.Text);
+                        MessageBox.Show("Сертификат добавлен");
                     }
                     else
                     {

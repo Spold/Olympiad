@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace Olympiad.Controllers
 {
-    internal class CertificatesController
+    public class CertificatesController
     {
         Core db = new Core();
 
@@ -40,7 +40,7 @@ namespace Olympiad.Controllers
             return true;
         }
 
-        public void AddNewCertificate(int olimpid, string filepath, string desc)
+        public int AddNewCertificate(int olimpid, string filepath, string desc)
         {
             Certificates certificates = new Certificates
             {
@@ -50,8 +50,8 @@ namespace Olympiad.Controllers
             };
 
             db.context.Certificates.Add(certificates);
-            db.context.SaveChanges();
-            MessageBox.Show("Сертификат добавлен");
+            return db.context.SaveChanges();
+           
         }
 
         public void UpdateDataCertificate(int sertid, int olimpid, string filepath, string desc)
@@ -61,6 +61,7 @@ namespace Olympiad.Controllers
             if (certificate == null)
             {
                 AddNewCertificate(olimpid, filepath, desc);
+                MessageBox.Show("Сертификат добавлен");
             }
             else
             {
@@ -72,5 +73,7 @@ namespace Olympiad.Controllers
 
            
         }
+
+
     }
 }

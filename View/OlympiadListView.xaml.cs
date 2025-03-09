@@ -28,11 +28,33 @@ namespace Olympiad.View
         {
             registrationsarr = db.context.Registrations.Where(x => x.StudentUserId == Properties.Settings.Default.UserId).ToList();
             InitializeComponent();
+            LoadItems();
             AllOlympiads();
             OlympiadList.ItemsSource = olimparr;
             List<string> items = new List<string>() { "Все года", "2025", "2024", "2023" };
             YearComboBox.ItemsSource = items;
             YearComboBox.SelectedIndex = 0;
+        }
+
+        public void LoadItems()
+        {
+            if (Properties.Settings.Default.UserRole == 0)
+            {
+                TutorRadioButton.Visibility = Visibility.Collapsed;
+                ParticipantRadioButton.Visibility = Visibility.Collapsed;
+                AllOlympiadsRadio.Visibility = Visibility.Collapsed;
+            }
+            else if(Properties.Settings.Default.UserRole == 1 || Properties.Settings.Default.UserRole == 3)
+            {
+                ParticipantRadioButton.Visibility = Visibility.Visible;
+                AllOlympiadsRadio.Visibility = Visibility.Visible;
+            }
+            else if(Properties.Settings.Default.UserRole == 2)
+            {
+                TutorRadioButton.Visibility = Visibility.Visible;
+                ParticipantRadioButton.Visibility = Visibility.Visible;
+                AllOlympiadsRadio.Visibility = Visibility.Visible;
+            }
         }
 
         public void TutorOlympiads()

@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace Olympiad.Model
 {
-    public class Core
+    public class Core : IDisposable
     {
-      public  OlympiadTrackingEntities context = new OlympiadTrackingEntities();
+        public OlympiadTrackingEntities context;
+
+        public Core()
+        {
+            context = new OlympiadTrackingEntities();
+        }
+
+        public void Dispose()
+        {
+            context.Dispose();
+        }
     }
 }

@@ -16,19 +16,19 @@
 
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <RadioButton x:Name="AllOlympiadsRadio" 
+            <RadioButton Visibility="Collapsed" x:Name="AllOlympiadsRadio" 
                  Content="Все олимпиады"
                  Margin="0 5 20 5"
                  GroupName="FilterGroup"
                  Checked="AllOlympiadsRadio_Checked"/>
 
-            <RadioButton x:Name="TutorRadioButton" 
+            <RadioButton Visibility="Collapsed" x:Name="TutorRadioButton" 
                  Content="Курируемые олимпиады"
                  Margin="0 5 20 5"
                  GroupName="FilterGroup"
                  Checked="TutorRadioButton_Checked"/>
 
-            <RadioButton x:Name="ParticipantRadioButton" 
+            <RadioButton Visibility="Collapsed" x:Name="ParticipantRadioButton" 
                  Content="Мои олимпиады"
                  Margin="0 5 20 5"
                  GroupName="FilterGroup"

@@ -51,6 +51,7 @@ namespace Olympiad.View
                 if (olympiadsController.CheckNewOlimpiad(name, teacherId, startdate, enddate))
                 {
                     olympiadsController.AddNewOlimpiad(name, teacherId, startdate, enddate);
+                    MessageBox.Show($"Олимпиада добавлена");
                 }
             }
             catch(Exception ex) {

@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace Olympiad.Controllers
 {
-    internal class OlympiadsController
+    public class OlympiadsController
     {
         Core db = new Core();
         public bool CheckNewOlimpiad(string name, int teacher, DateTime startDate, DateTime endDate)
@@ -31,13 +31,13 @@ namespace Olympiad.Controllers
 
             if (startDate > endDate)
             {
-                throw new ArgumentException("Дата начала олимпиады не может быть позже даты окончания.");
+                throw new Exception("Дата начала олимпиады не может быть позже даты окончания.");
             }
 
             return true;
         }
 
-        public void AddNewOlimpiad(string name, int teacher, DateTime startDate, DateTime endDate)
+        public int AddNewOlimpiad(string name, int teacher, DateTime startDate, DateTime endDate)
         {
             Olympiads olympiads = new Olympiads
             {
@@ -48,9 +48,9 @@ namespace Olympiad.Controllers
             };
            
             db.context.Olympiads.Add(olympiads);
-            db.context.SaveChanges();
+            return db.context.SaveChanges();
 
-            MessageBox.Show($"Олимпиада добавлена");
+            
         }
 
         public bool UpdateOlympiadData(int olympiadId,
@@ -108,10 +108,22 @@ namespace Olympiad.Controllers
 
         public List<Olympiads> LoadOlympiadsAndProtocols(int olympiadId)
         {
-            return db.context.Olympiads
-                .Include("Protocols")
+
+            if ( olympiadId <= 0 ) {
+                throw new Exception("Олимпиада не найдена");
+            }
+
+
+            List<Olympiads> olympiads = db.context.Olympiads.Include("Protocols")
                 .Where(x => x.OlympiadId == olympiadId)
                 .ToList();
+
+            if (olympiads.Count == 0)
+            {
+                throw new Exception("Такой олимпиады не существует");
+            }
+
+            return olympiads;
         }
     }
 }
