@@ -27,8 +27,8 @@
 
                 <TextBlock Foreground="White" Margin="5 0" TextAlignment="Left">Дата окончания олимпиады:</TextBlock>
                 <DatePicker x:Name="EndDatePicker" Margin="5"/>
-               
-                <Button  Grid.Row="2" x:Name="RegisterBtn" Style="{StaticResource MainButton}" Margin="10" Click="AddBtn_Click">Зарегистрироваться</Button>
+
+                <Button  Grid.Row="2" x:Name="RegisterBtn" Style="{StaticResource MainButton}" Margin="10" Click="AddBtn_Click">Создать олимпиаду</Button>
             </StackPanel>
         </Border>
 

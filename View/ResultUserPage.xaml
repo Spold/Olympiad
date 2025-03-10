@@ -21,6 +21,7 @@
         <DataGrid x:Name="ResultsGrid" Grid.Row="1" 
               AutoGenerateColumns="False"
               CanUserAddRows="False"
+                  IsReadOnly="True"
               ItemsSource="{Binding results}"
               Margin="0 0 0 10">
             <DataGrid.Columns>
