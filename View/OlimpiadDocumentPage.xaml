@@ -17,17 +17,24 @@
             <StackPanel Margin="10">
                 <TextBlock Foreground="White" TextAlignment="Center" Margin="0,0,0,10" FontWeight="Bold" FontSize="16">Документы для олимпиады:</TextBlock>
                 <TextBlock x:Name="OlimpiadTextBlock" Foreground="White" TextAlignment="Center" Margin="0,0,0,10" FontWeight="Bold" FontSize="12"></TextBlock>
+                <TextBlock Foreground="White" Margin="5 0" TextAlignment="Left">Положение олимпиады:</TextBlock>
+                
+                <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBox IsReadOnly="True" x:Name="PositionTextBox" Style="{StaticResource RoundedTextBox}" Width="300"/>
+                    <Button x:Name="SelectPositionBtn" Style="{StaticResource MainButton}" Content="Указать" Margin="5 0" Click="SelectPositionBtn_Click"/>
+                </StackPanel>
 
-                <TextBlock Foreground="White"  Margin="5 0" TextAlignment="Left">Положение олимпиады:</TextBlock>
-                <TextBox x:Name="PositionTextBox" Style="{StaticResource RoundedTextBox}" Margin="5"/>
+                <TextBlock Foreground="White" Margin="5 0" TextAlignment="Left">Архив прошлых заданий олимпиады:</TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBox IsReadOnly="True" x:Name="TeskArchiveTextBox" Style="{StaticResource RoundedTextBox}" Width="300"/>
+                    <Button x:Name="SelectArchiveBtn" Style="{StaticResource MainButton}" Content="Указать" Margin="5 0" Click="SelectArchiveBtn_Click"/>
+                </StackPanel>
 
-
-                <TextBlock Foreground="White"  Margin="5 0" TextAlignment="Left">Архив прошлых заданий олимпиады:</TextBlock>
-                <TextBox x:Name="TeskArchiveTextBox" Style="{StaticResource RoundedTextBox}" Margin="5"/>
-
-                <TextBlock Foreground="White"  Margin="5 0" TextAlignment="Left">Протокол олимпиады:</TextBlock>
-                <TextBox x:Name="ProtocolTextBox" Style="{StaticResource RoundedTextBox}" Margin="5"/>
-
+                <TextBlock Foreground="White" Margin="5 0" TextAlignment="Left">Протокол олимпиады:</TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBox IsReadOnly="True" x:Name="ProtocolTextBox" Style="{StaticResource RoundedTextBox}" Width="300"/>
+                    <Button x:Name="SelectProtocolBtn" Style="{StaticResource MainButton}" Content="Указать" Click="SelectProtocolBtn_Click"/>
+                </StackPanel>
                 <TextBlock Foreground="White"  Margin="5 0" TextAlignment="Left">Статус протокола:</TextBlock>
                 <ComboBox x:Name="ProtocolStatusBox" Margin="5"/>
 

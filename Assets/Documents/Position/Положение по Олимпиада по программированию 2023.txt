@@ -1,0 +1,111 @@
+using Olympiad.Controllers;
+using Olympiad.Model;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.IO;
+
+using static Olympiad.View.ProtocolEditPage;
+
+namespace Olympiad.View
+{
+    /// <summary>
+    /// Логика взаимодействия для OlimpiadDocumentPage.xaml
+    /// </summary>
+    public partial class OlimpiadDocumentPage : Page
+    {
+        int olimpId;
+        Core db = new Core();
+        OlympiadsController olympiadsController = new OlympiadsController();
+
+        private string _olimpiadName;
+        private string _documentsBasePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Documents");
+        private string _protocolsPath = System.IO.Path.Combine("Protocols");
+        private string _positionsPath = System.IO.Path.Combine("Position");
+        private string _archivePath = System.IO.Path.Combine("Archive");
+
+        public OlimpiadDocumentPage(int olimpiadId)
+        {
+
+            InitializeComponent();
+
+            ProtocolStatusBox.ItemsSource = new List<string>
+        {
+            "draft",
+            "prepared"
+        };
+
+            olimpId = olimpiadId;
+
+            var olimparr = db.context.Olympiads.Include("Protocols").Where(x => x.OlympiadId == olimpiadId).ToList();
+
+            foreach (var item in olimparr)
+            {
+                OlimpiadTextBlock.Text = item.Name;
+                PositionTextBox.Text = item.PositionDocument;
+                TeskArchiveTextBox.Text = item.TasksArchive;
+                var protocol = item.Protocols.FirstOrDefault();
+                if (protocol != null)
+                {
+                    ProtocolTextBox.Text = protocol.FilePath;
+                    Debug.WriteLine(protocol.Status);
+                    ProtocolStatusBox.SelectedItem = protocol.Status;
+                }
+                else
+                {
+                    ProtocolStatusBox.SelectedIndex = 0;
+                }
+
+            }
+        }
+
+        private void UpdateBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                olympiadsController.UpdateOlympiadData(olimpId, PositionTextBox.Text, TeskArchiveTextBox.Text, ProtocolTextBox.Text, ProtocolStatusBox.Text);
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
+        }
+
+        private void SelectProtocolBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SelectArchiveBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SelectPositionBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
+}

@@ -17,6 +17,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Olympiad.Model.PartialClasses;
 using Olympiad.Services;
+using System.IO;
+using System.Reflection;
 
 namespace Olympiad.View
 {
@@ -133,17 +135,31 @@ namespace Olympiad.View
 
         }
 
-        private void OpenLink(string url)
+        private void OpenLink(string relativePath)
         {
             try
             {
-                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+                // Получение абсолютного пути из относительного
+                string exePath = Assembly.GetExecutingAssembly().Location;
+                string exeDirectory = System.IO.Path.GetDirectoryName(exePath);
+                string absolutePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(exeDirectory, relativePath));
+
+                if (File.Exists(absolutePath))
+                {
+                    Process.Start(new ProcessStartInfo(absolutePath) { UseShellExecute = true });
+                }
+                else
+                {
+                    MessageBox.Show("Файл не найден.");
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Не удалось открыть ссылку: {ex.Message}");
+                MessageBox.Show($"Ошибка при открытии файла: {ex.Message}");
             }
         }
+
+       
 
         private void PositionLink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
