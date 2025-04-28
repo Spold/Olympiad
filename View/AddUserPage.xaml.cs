@@ -27,7 +27,6 @@ namespace Olympiad.View
         public AddUserPage()
         {
             InitializeComponent();
-            CourseComboBox.SelectedIndex = 0;
         }
 
         private void RegisterBtn_Click(object sender, RoutedEventArgs e)

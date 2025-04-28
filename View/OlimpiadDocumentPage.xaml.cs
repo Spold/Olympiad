@@ -157,5 +157,20 @@ namespace Olympiad.View
         {
             HandleFileSelection(_positionsPath, PositionTextBox, "Position");
         }
+
+        private void RemoveProtocolBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ProtocolTextBox.Text = string.Empty;
+        }
+
+        private void RemoveArchiveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            TeskArchiveTextBox.Text = string.Empty;
+        }
+
+        private void RemovePositionBtn_Click(object sender, RoutedEventArgs e)
+        {
+            PositionTextBox.Text = string.Empty;
+        }
     }
 }

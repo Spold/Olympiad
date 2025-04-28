@@ -32,8 +32,16 @@ namespace Olympiad.View
             LoadItems();
             AllOlympiads();
             OlympiadList.ItemsSource = olimparr;
-            List<string> items = new List<string>() { "Все года", "2025", "2024", "2023" };
-            YearComboBox.ItemsSource = items;
+
+            var years = olimparr.Select(x => x.StartDate.Year.ToString()) 
+                                .Distinct()                              
+                                .OrderByDescending(y => y)               
+                                .ToList();
+
+            years.Insert(0, "Все года");
+
+            YearComboBox.ItemsSource = years;
+
             YearComboBox.SelectedIndex = 0;
         }
 

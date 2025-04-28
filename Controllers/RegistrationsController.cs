@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Windows;
 using Olympiad.Model.PartialClasses;
 using System.Windows.Controls;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Olympiad.Controllers
 {
@@ -18,22 +19,40 @@ namespace Olympiad.Controllers
         List<Registrations> registrations = new List<Registrations>();
         ProtocolsController protocolsController = new ProtocolsController();
 
-        public bool CheckUserRegistration(int userId, int olympiadId)
+        public bool CheckUserRegistration(int userId, int olympiadId, bool reg)
         {
-            if (userId == 0)
+            if (reg == true)
             {
-                throw new Exception("Войдите в свой аккаунт чтобы участвовать в олимпиаде!");
-            }
+                if (userId == 0)
+                {
+                    throw new Exception("Войдите в свой аккаунт чтобы участвовать в олимпиаде!");
+                }
 
-            if (olympiadId == 0)
-            {
-                throw new Exception("Олимпиада не найдена в системе");
+                if (olympiadId == 0)
+                {
+                    throw new Exception("Олимпиада не найдена в системе");
+                }
             }
+           
 
             bool isRegistrationExists = db.context.Registrations
                 .Any(r => r.StudentUserId == userId && r.OlympiadId == olympiadId);
 
             return !isRegistrationExists;
+        }
+
+        public int DeleteRegistation(int userId, int olympiadId)
+        {
+            Registrations reg = db.context.Registrations.FirstOrDefault(x => x.StudentUserId == userId && x.OlympiadId == olympiadId);
+            if (reg != null)
+            {
+                db.context.Registrations.Remove(reg);
+                return db.context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Ошибка удаления");
+            }
         }
 
         public int RegistrationOnOlimpiad(int userId, int olimpiadId)

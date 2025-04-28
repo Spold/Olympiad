@@ -36,7 +36,7 @@ namespace Olympiad.Controllers
             }
         }
 
-        public void LoginUser(string login, string password)
+        public bool LoginUser(string login, string password)
         {
             Users user = db.context.Users.Where(x => x.Login == login).FirstOrDefault();
 
@@ -45,6 +45,7 @@ namespace Olympiad.Controllers
                 Properties.Settings.Default.UserId = user.UserId;
                 Properties.Settings.Default.UserRole = user.RoleType;
                 Properties.Settings.Default.Save();
+                return true;
             }
             else
             {

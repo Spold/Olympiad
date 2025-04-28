@@ -19,6 +19,7 @@ using Olympiad.Model.PartialClasses;
 using Olympiad.Services;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Olympiad.View
 {
@@ -29,7 +30,7 @@ namespace Olympiad.View
     {
 
         Core db = new Core();
-        List<Olympiads> olimparr = new List<Olympiads>();
+        Olympiads olymp = new Olympiads();
         List<Users> usersarray = new List<Users>();
         RegistrationsController registrationsController = new RegistrationsController();
         ExcelReportService excelReportService = new ExcelReportService();
@@ -40,21 +41,22 @@ namespace Olympiad.View
         string urlArchive;
         public OlympiadDetailPage(int id)
         {
-            olimparr = olympiadsController.LoadOlympiadsAndProtocols(id);
+            olymp = olympiadsController.LoadOlympiadsAndProtocols(id);
 
             InitializeComponent();
 
-            foreach (var item in olimparr)
-            {
-                olimpId = item.OlympiadId;
-                OlympiadTextBlock.Text = item.Name;
-                OlympiadDateTextBlock.Text = item.StartDate.ToString("d");
-                usersarray = db.context.Users.Where(x => x.UserId == item.ResponsibleTeacherUserId).ToList();
-                urlPosition = item.PositionDocument;
-                DocumentsVisible(item);
-                ActionVisible(item.ResponsibleTeacherUserId);
-               
-            }
+
+                olimpId = olymp.OlympiadId;
+                OlympiadTextBlock.Text = olymp.Name;
+                OlympiadDateTextBlock.Text = olymp.StartDate.ToString("d");
+                usersarray = db.context.Users.Where(x => x.UserId == olymp.ResponsibleTeacherUserId).ToList();
+                urlPosition = olymp.PositionDocument;
+                DocumentsVisible(olymp);
+                ActionVisible(olymp.ResponsibleTeacherUserId);
+                ButtonState();
+
+
+            
 
             foreach (var item in usersarray)
             {
@@ -62,6 +64,41 @@ namespace Olympiad.View
             }
         }
 
+        private void ButtonState()
+        {
+            try
+            {
+                var olympiad = db.context.Olympiads.FirstOrDefault(x => x.OlympiadId == olimpId);
+                if (olympiad == null) return;
+
+                if (DateTime.Now > olympiad.EndDate)
+                {
+                    ParticipateButton.Style = (Style)FindResource("DisabledButton");
+                    ParticipateButton.Content = "Олимпиада прошла";
+                    return;
+                }
+
+                if (DateTime.Now >= olympiad.StartDate)
+                {
+                    ParticipateButton.Style = (Style)FindResource("DisabledButton");
+                    ParticipateButton.Content = "Олимпиада уже идет";
+                    return;
+                }
+
+                if (!registrationsController.CheckUserRegistration(Properties.Settings.Default.UserId, olimpId, false))
+                {
+                    ParticipateButton.Style = (Style)FindResource("RedButton");
+                    ParticipateButton.Content = "Отменить регистрацию";
+                    return;
+                }
+            }catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
+
+            
+        }
         private void BackArrowlLink(object sender, RequestNavigateEventArgs e)
         {
             this.NavigationService.GoBack();
@@ -69,28 +106,33 @@ namespace Olympiad.View
 
         public void DocumentsVisible(Olympiads item)
         {
-            if (item.PositionDocument != null)
+
+            // Проверка и установка положения
+            if (!string.IsNullOrEmpty(item.PositionDocument))
             {
                 urlPosition = item.PositionDocument;
             }
             else
             {
-                PositionTextBlock.Text = "Положение отсутсвует";
+                PositionTextBlock.Text = "Положение отсутствует";
             }
 
-            if (item.TasksArchive != null)
+
+            if (!string.IsNullOrEmpty(item.TasksArchive))
             {
                 urlArchive = item.TasksArchive;
             }
             else
             {
-                PositionTextBlock.Text = "Задания отсутсвует";
+                ArchiveTextBlock.Text = "Задания отсутствуют";
             }
 
-            var protocol = item.Protocols.Where(x => x.IsPublished == true && x.Status == "prepared").FirstOrDefault();
-            if (protocol != null)
+            var activeProtocol = item.Protocols?
+                .FirstOrDefault(p => p.IsPublished && p.Status == "prepared");
+
+            if (activeProtocol != null && !string.IsNullOrEmpty(activeProtocol.FilePath))
             {
-                urlProtocol = protocol.FilePath;
+                urlProtocol = activeProtocol.FilePath;
             }
             else
             {
@@ -118,14 +160,31 @@ namespace Olympiad.View
             try
             {
              
-                if (registrationsController.CheckUserRegistration(Properties.Settings.Default.UserId, olimpId))
+                if (registrationsController.CheckUserRegistration(Properties.Settings.Default.UserId, olimpId, true))
                 {
                     MessageBox.Show("Регистрация прошла успешно");
                     registrationsController.RegistrationOnOlimpiad(Properties.Settings.Default.UserId, olimpId);
+                    ButtonState();
                 }
                 else
                 {
-                    MessageBox.Show("Вы уже зарегестрировались в этой олимпиаде!");
+                    MessageBoxResult rez = MessageBox.Show("Вы уже зарегестрировались в этой олимпиаде! Хотите отменить регистрацию?", "Регистрация", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (rez == MessageBoxResult.Yes)
+                    {
+                        try
+                        {
+                            registrationsController.DeleteRegistation(Properties.Settings.Default.UserId, olimpId);
+                            MessageBox.Show("Регистрация удалена");
+                            ReloadPage();
+                            ButtonState();
+
+                        }
+                        catch (Exception)
+                        {
+                            MessageBox.Show("Ошибка регистрации.", "Регистрация", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -135,23 +194,43 @@ namespace Olympiad.View
 
         }
 
+        private void ReloadPage()
+        {
+            this.NavigationService.Navigate(new OlympiadDetailPage(olimpId));
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.RemoveBackEntry();
+            }
+        }
+
         private void OpenLink(string relativePath)
         {
             try
             {
-                // Получение абсолютного пути из относительного
-                string exePath = Assembly.GetExecutingAssembly().Location;
-                string exeDirectory = System.IO.Path.GetDirectoryName(exePath);
-                string absolutePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(exeDirectory, relativePath));
+                string pattern = @"^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$";
 
-                if (File.Exists(absolutePath))
+                // Проверка через Regex.IsMatch
+                if (Regex.IsMatch(relativePath, pattern, RegexOptions.IgnoreCase))
                 {
-                    Process.Start(new ProcessStartInfo(absolutePath) { UseShellExecute = true });
+                    Process.Start(new ProcessStartInfo(relativePath) { UseShellExecute = true });
                 }
                 else
                 {
-                    MessageBox.Show("Файл не найден.");
+                    // Получение абсолютного пути из относительного
+                    string exePath = Assembly.GetExecutingAssembly().Location;
+                    string exeDirectory = System.IO.Path.GetDirectoryName(exePath);
+                    string absolutePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(exeDirectory, relativePath));
+
+                    if (File.Exists(absolutePath))
+                    {
+                        Process.Start(new ProcessStartInfo(absolutePath) { UseShellExecute = true });
+                    }
+                    else
+                    {
+                        MessageBox.Show("Файл не найден.");
+                    }
                 }
+              
             }
             catch (Exception ex)
             {
@@ -196,6 +275,9 @@ namespace Olympiad.View
             excelReportService.ExportOlympiadReport(olimpId);
         }
 
-       
+        private void EditOlympiad_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new EditOlympiadPage(id: olimpId));
+        }
     }
 }

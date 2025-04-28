@@ -23,7 +23,7 @@ namespace Olympiad.Model
         public int RegistrationId { get; set; }
         public int StudentUserId { get; set; }
         public int OlympiadId { get; set; }
-        public Nullable<System.DateTime> RegistrationDate { get; set; }
+        public System.DateTime RegistrationDate { get; set; }
     
         public virtual Olympiads Olympiads { get; set; }
         public virtual Users Users { get; set; }

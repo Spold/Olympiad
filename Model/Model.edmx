@@ -11,20 +11,20 @@
           </Key>
           <Property Name="CertificateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OlympiadId" Type="int" Nullable="false" />
-          <Property Name="FilePath" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="Description" Type="text" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Olympiads">
           <Key>
             <PropertyRef Name="OlympiadId" />
           </Key>
           <Property Name="OlympiadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="ResponsibleTeacherUserId" Type="int" Nullable="false" />
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
-          <Property Name="PositionDocument" Type="text" />
-          <Property Name="TasksArchive" Type="text" />
+          <Property Name="PositionDocument" Type="nvarchar(max)" />
+          <Property Name="TasksArchive" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Protocols">
           <Key>
@@ -32,8 +32,8 @@
           </Key>
           <Property Name="ProtocolId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OlympiadId" Type="int" Nullable="false" />
-          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="FilePath" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="IsPublished" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Registrations">
@@ -43,7 +43,7 @@
           <Property Name="RegistrationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StudentUserId" Type="int" Nullable="false" />
           <Property Name="OlympiadId" Type="int" Nullable="false" />
-          <Property Name="RegistrationDate" Type="datetime" />
+          <Property Name="RegistrationDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Results">
           <Key>
@@ -53,25 +53,25 @@
           <Property Name="RegistrationId" Type="int" Nullable="false" />
           <Property Name="ProtocolId" Type="int" Nullable="false" />
           <Property Name="Score" Type="int" Nullable="false" />
-          <Property Name="ResultType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ResultType" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
           <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Login" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="PasswordHash" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="RoleType" Type="int" Nullable="false" />
-          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Patronymic" Type="varchar" MaxLength="50" />
-          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="DateOfBirth" Type="date" />
-          <Property Name="EducationalInstitution" Type="varchar" MaxLength="100" />
-          <Property Name="EducationLevel" Type="varchar" MaxLength="50" />
+          <Property Name="EducationalInstitution" Type="nvarchar" MaxLength="100" />
+          <Property Name="EducationLevel" Type="nvarchar" MaxLength="50" />
           <Property Name="CourseNumber" Type="int" />
-          <Property Name="Specialty" Type="varchar" MaxLength="100" />
+          <Property Name="Specialty" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <Association Name="FK_Certificates_Olympiads">
           <End Role="Olympiads" Type="Self.Olympiads" Multiplicity="1" />
@@ -204,8 +204,8 @@
           </Key>
           <Property Name="CertificateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OlympiadId" Type="Int32" Nullable="false" />
-          <Property Name="FilePath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FilePath" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Olympiads" Relationship="Self.FK_Certificates_Olympiads" FromRole="Certificates" ToRole="Olympiads" />
         </EntityType>
         <EntityType Name="Olympiads">
@@ -213,12 +213,12 @@
             <PropertyRef Name="OlympiadId" />
           </Key>
           <Property Name="OlympiadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ResponsibleTeacherUserId" Type="Int32" Nullable="false" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="PositionDocument" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="TasksArchive" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PositionDocument" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TasksArchive" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Certificates" Relationship="Self.FK_Certificates_Olympiads" FromRole="Olympiads" ToRole="Certificates" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Olympiads_Users" FromRole="Olympiads" ToRole="Users" />
           <NavigationProperty Name="Protocols" Relationship="Self.FK_Protocols_Olympiads" FromRole="Olympiads" ToRole="Protocols" />
@@ -230,8 +230,8 @@
           </Key>
           <Property Name="ProtocolId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OlympiadId" Type="Int32" Nullable="false" />
-          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FilePath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FilePath" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsPublished" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Olympiads" Relationship="Self.FK_Protocols_Olympiads" FromRole="Protocols" ToRole="Olympiads" />
           <NavigationProperty Name="Results" Relationship="Self.FK_Results_Protocols" FromRole="Protocols" ToRole="Results" />
@@ -243,7 +243,7 @@
           <Property Name="RegistrationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StudentUserId" Type="Int32" Nullable="false" />
           <Property Name="OlympiadId" Type="Int32" Nullable="false" />
-          <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
+          <Property Name="RegistrationDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Olympiads" Relationship="Self.FK_Registrations_Olympiads" FromRole="Registrations" ToRole="Olympiads" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Registrations_Students" FromRole="Registrations" ToRole="Users" />
           <NavigationProperty Name="Results" Relationship="Self.FK_Results_Registrations" FromRole="Registrations" ToRole="Results" />
@@ -256,7 +256,7 @@
           <Property Name="RegistrationId" Type="Int32" Nullable="false" />
           <Property Name="ProtocolId" Type="Int32" Nullable="false" />
           <Property Name="Score" Type="Int32" Nullable="false" />
-          <Property Name="ResultType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ResultType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Protocols" Relationship="Self.FK_Results_Protocols" FromRole="Results" ToRole="Protocols" />
           <NavigationProperty Name="Registrations" Relationship="Self.FK_Results_Registrations" FromRole="Results" ToRole="Registrations" />
         </EntityType>
@@ -265,18 +265,18 @@
             <PropertyRef Name="UserId" />
           </Key>
           <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RoleType" Type="Int32" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
-          <Property Name="EducationalInstitution" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="EducationLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EducationalInstitution" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EducationLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CourseNumber" Type="Int32" />
-          <Property Name="Specialty" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Specialty" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Olympiads" Relationship="Self.FK_Olympiads_Users" FromRole="Users" ToRole="Olympiads" />
           <NavigationProperty Name="Registrations" Relationship="Self.FK_Registrations_Students" FromRole="Users" ToRole="Registrations" />
         </EntityType>

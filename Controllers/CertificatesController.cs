@@ -54,7 +54,7 @@ namespace Olympiad.Controllers
            
         }
 
-        public void UpdateDataCertificate(int sertid, int olimpid, string filepath, string desc)
+        public bool UpdateDataCertificate(int sertid, int olimpid, string filepath, string desc)
         {
             Certificates certificate = db.context.Certificates.Where(x => x.CertificateId == sertid).FirstOrDefault();
 
@@ -62,6 +62,7 @@ namespace Olympiad.Controllers
             {
                 AddNewCertificate(olimpid, filepath, desc);
                 MessageBox.Show("Сертификат добавлен");
+                return true;
             }
             else
             {
@@ -69,9 +70,9 @@ namespace Olympiad.Controllers
                 certificate.Description = desc;
                 db.context.SaveChanges();
                 MessageBox.Show("Сертификат обновлен");
+                return true;
             }
 
-           
         }
 
 

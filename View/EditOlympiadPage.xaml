@@ -1,4 +1,4 @@
-﻿<Page x:Class="Olympiad.View.AddOlimpiadPage"
+﻿<Page x:Class="Olympiad.View.EditOlympiadPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,17 +6,17 @@
       xmlns:local="clr-namespace:Olympiad.View"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="AddOlimpiadPage">
+      Title="EditOlympiadPage">
 
     <Grid>
 
         <Border Grid.Column="0" Margin="200, 30" Grid.RowSpan="2" CornerRadius="10" Background="{DynamicResource MainBackground}">
             <StackPanel Margin="10">
-                <TextBlock Foreground="White" TextAlignment="Center" Margin="0,0,0,10" FontWeight="Bold" FontSize="16">Добавление олимпиады</TextBlock>
+                <TextBlock Foreground="White" TextAlignment="Center" Margin="0,0,0,10" FontWeight="Bold" FontSize="16">Изменение олимпиады</TextBlock>
 
                 <TextBlock Foreground="White"  Margin="5 0" TextAlignment="Left">Название олимпиады:</TextBlock>
                 <TextBox x:Name="NameTextBox" Style="{StaticResource RoundedTextBox}" Margin="5"/>
-              
+
                 <TextBlock Foreground="White" Margin="5 0" TextAlignment="Left">Ответсвенный преподаватель:</TextBlock>
                 <ComboBox x:Name="TeacherComboBox" Margin="5">
                 </ComboBox>
@@ -28,7 +28,7 @@
                 <TextBlock Foreground="White" Margin="5 0" TextAlignment="Left">Дата окончания олимпиады:</TextBlock>
                 <DatePicker x:Name="EndDatePicker" Margin="5"/>
 
-                <Button  Grid.Row="2" x:Name="RegisterBtn" Style="{StaticResource MainButton}" Margin="10" Click="AddBtn_Click">Создать олимпиаду</Button>
+                <Button  Grid.Row="2" x:Name="RegisterBtn" Style="{StaticResource MainButton}" Margin="10" Click="Edit_Click">Обновить олимпиаду</Button>
                 <Button  Grid.Row="2" x:Name="BackBtn" Style="{StaticResource MainButton}" Margin="10" Click="BackBtn_Click">Назад</Button>
             </StackPanel>
         </Border>
